@@ -1,9 +1,14 @@
-## ----orf intro, include = FALSE------------------------------------------
+## ----options, include = FALSE-------------------------------------------------
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.width = 7, fig.height = 7, fig.align = "center")
+
+## ----install, eval = FALSE----------------------------------------------------
+#  install.packages("orf", dependencies = c("Imports", "Suggests"))
+
+## ----orf intro, include = FALSE-----------------------------------------------
 library(orf)
 set.seed(123)
 
-## ----data----------------------------------------------------------------
+## ----data---------------------------------------------------------------------
 # load example data
 data(odata)
 
@@ -11,14 +16,14 @@ data(odata)
 Y <- as.numeric(odata[, 1])
 X <- as.matrix(odata[, -1])
 
-## ----orf default---------------------------------------------------------
+## ----orf default--------------------------------------------------------------
 # estimate Ordered Forest with default settings
 orf_model <- orf(X, Y)
 
 # print output of the orf estimation
 print(orf_model)
 
-## ----orf custom----------------------------------------------------------
+## ----orf custom---------------------------------------------------------------
 # estimate Ordered Forest with custom settings
 orf_model <- orf(X, Y,
                        num.trees = 1000, mtry = 2, min.node.size = 5,
@@ -29,18 +34,18 @@ orf_model <- orf(X, Y,
 # show summary of the orf estimation
 summary(orf_model)
 
-## ----orf plot------------------------------------------------------------
+## ----orf plot-----------------------------------------------------------------
 # plot the estimated probability distributions
 plot(orf_model)
 
-## ----orf predict---------------------------------------------------------
+## ----orf predict--------------------------------------------------------------
 # get fitted values with the estimated orf
 orf_fitted <- predict(orf_model)
 
 # print orf fitted values
 print(orf_fitted)
 
-## ----orf predict test----------------------------------------------------
+## ----orf predict test---------------------------------------------------------
 # specify response and covariates for train and test
 idx <- sample(seq(1, nrow(odata), 1), 0.8*nrow(odata))
 
@@ -61,14 +66,14 @@ orf_test <- predict(orf_train, newdata = X_test, type = "probs", inference = FAL
 # summary of the orf predictions
 summary(orf_test)
 
-## ----orf margins---------------------------------------------------------
+## ----orf margins--------------------------------------------------------------
 # estimate marginal effects of the orf
 orf_margins <- margins(orf_model)
 
 # print the results of the marginal effects estimation
 print(orf_margins)
 
-## ----orf margins custom--------------------------------------------------
+## ----orf margins custom-------------------------------------------------------
 # estimate marginal effects of the orf with inference
 orf_margins <- margins(orf_model, eval = "mean", window = 0.1,
                                   inference = TRUE, newdata = NULL)
