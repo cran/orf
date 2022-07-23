@@ -1,3 +1,9 @@
+# orf 0.1.4
+
+* change in maintainer email address
+* bug fix for class inheritance and readme
+* updated urls and references
+
 # orf 0.1.3
 
 * bug fix for variable importance option
